@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:salla/core/config/application_theme_manager.dart';
-import 'package:salla/core/config/page_routes_names.dart';
 import 'package:salla/core/widgets/custom_text_field.dart';
-import 'package:salla/main.dart';
 
-class LoginView extends StatefulWidget {
-  const LoginView({super.key});
+class RegisterView extends StatefulWidget {
+  const RegisterView({super.key});
 
   @override
-  State<LoginView> createState() => _LoginViewState();
+  State<RegisterView> createState() => _LoginViewState();
 }
 
-class _LoginViewState extends State<LoginView> {
+class _LoginViewState extends State<RegisterView> {
   var formKey = GlobalKey<FormState>();
+  var userNameController = TextEditingController();
+  var mobileNumberController = TextEditingController();
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
 
@@ -20,11 +20,15 @@ class _LoginViewState extends State<LoginView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ApplicationThemeManager.themeData.primaryColor,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        iconTheme: const IconThemeData(color: Colors.white),
+      ),
       body: Form(
         key: formKey,
         child: SingleChildScrollView(
           padding: EdgeInsets.only(
-              top: ApplicationThemeManager.mediaQuery.height * 0.1),
+              top: ApplicationThemeManager.mediaQuery.height * 0.05),
           reverse: true,
           physics: const ClampingScrollPhysics(),
           child: Padding(
@@ -38,26 +42,7 @@ class _LoginViewState extends State<LoginView> {
                   height: 30,
                 ),
                 const Text(
-                  "Welcome Back To Route",
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 24,
-                    color: Colors.white,
-                  ),
-                ),
-                const Text(
-                  "Please sign in with your mail",
-                  style: TextStyle(
-                    fontWeight: FontWeight.w300,
-                    fontSize: 16,
-                    color: Colors.white,
-                  ),
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                const Text(
-                  "Email Address",
+                  "Full Name",
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 16,
@@ -65,12 +50,52 @@ class _LoginViewState extends State<LoginView> {
                 ),
                 const SizedBox(height: 5),
                 CustomTextField(
-                  controller: emailController,
-                  hint: "Enter Your Email",
+                  controller: userNameController,
+                  hint: "Enter Your Full Name",
                   keyboardType: TextInputType.emailAddress,
                   onValidate: (value) {
                     if (value == null || value.isEmpty) {
-                      return "You Must Enter Your Email ID !";
+                      return "You Must Enter Your Name !";
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 10),
+                const Text(
+                  "Mobile Number",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500),
+                ),
+                const SizedBox(height: 10),
+                CustomTextField(
+                  controller: mobileNumberController,
+                  hint: "Enter Your Phone Number",
+                  onValidate: (value) {
+                    if (value!.trim().isEmpty) {
+                      return "You Must Enter Your Phone Number.";
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 10),
+                const Text(
+                  "Email Address",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                CustomTextField(
+                  controller: emailController,
+                  hint: "Enter Your Email Address",
+                  onValidate: (value) {
+                    if (value!.trim().isEmpty) {
+                      return "You Must Enter Your Email Address.";
                     }
                     return null;
                   },
@@ -83,7 +108,9 @@ class _LoginViewState extends State<LoginView> {
                       fontSize: 16,
                       fontWeight: FontWeight.w500),
                 ),
-                const SizedBox(height: 5),
+                const SizedBox(
+                  height: 10,
+                ),
                 CustomTextField(
                   controller: passwordController,
                   hint: "Enter Your Password",
@@ -91,21 +118,12 @@ class _LoginViewState extends State<LoginView> {
                   maxLines: 1,
                   onValidate: (value) {
                     if (value!.trim().isEmpty) {
-                      return "You Must Enter A Password.";
+                      return "You Must Enter Your Password.";
                     }
                     return null;
                   },
                 ),
                 const SizedBox(height: 12),
-                const Text(
-                  "Forgot Password ?",
-                  textAlign: TextAlign.end,
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.white,
-                  ),
-                ),
-                const SizedBox(height: 18),
                 SizedBox(
                   height: 50,
                   child: ElevatedButton(
@@ -115,7 +133,7 @@ class _LoginViewState extends State<LoginView> {
                       }
                     },
                     child: const Text(
-                      "Login",
+                      "Register",
                       style: TextStyle(
                           color: Colors.blueAccent,
                           fontSize: 18,
@@ -125,19 +143,6 @@ class _LoginViewState extends State<LoginView> {
                 ),
                 const SizedBox(
                   height: 10,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    navigatorKey.currentState
-                        ?.pushNamed(PageRouteName.registration);
-                  },
-                  child: const Text(
-                    "Don't have an Account? create One !",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
                 ),
               ],
             ),
