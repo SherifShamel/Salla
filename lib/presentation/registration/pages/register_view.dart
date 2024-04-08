@@ -117,8 +117,13 @@ class _LoginViewState extends State<RegisterView> {
                   isPassword: true,
                   maxLines: 1,
                   onValidate: (value) {
+                    var regex = RegExp(
+                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
                     if (value!.trim().isEmpty) {
-                      return "You Must Enter Your Password.";
+                      return "You Must Enter Your Password";
+                    }
+                    if (!regex.hasMatch(value)) {
+                      return "Your password Must Be At Least \n one small character \n one Uppercase character \n one number \n one special character";
                     }
                     return null;
                   },
